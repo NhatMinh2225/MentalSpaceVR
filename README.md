@@ -8,7 +8,7 @@ lighting changes color, ambient music plays, and particles adjust to match the m
 Built with Unity 6, C#, and Universal Render Pipeline.
 
 ## Demo
-markdown[Video Demo](https://youtu.be/7kc2q8fu-CA)
+[Video Demo](https://youtu.be/7kc2q8fu-CA)
 
 ## Features
 - PS Controller input for emotion selection
