@@ -8,12 +8,18 @@ public class EmotionController : MonoBehaviour
     public Light moodLight;
     public ParticleSystem particles;
     public TextMeshProUGUI emotionText;
+    public BreathingGuide breathingGuide;
 
     [Header("Audio")]
     public AudioSource audioSource;
     public AudioClip calmMusic;
     public AudioClip anxiousMusic;
     public AudioClip focusedMusic;
+
+    [Header("Skybox")]
+    public Material calmSky;
+    public Material anxiousSky;
+    public Material focusedSky;
 
     [Header("Emotion Colors")]
     public Color calmColor    = new Color(0.4f, 0.7f, 1.0f);
@@ -30,6 +36,10 @@ public class EmotionController : MonoBehaviour
             moodLight.color = calmColor;
         if (emotionText != null)
             emotionText.text = "[X] CALM   [O] ANXIOUS   [T] FOCUSED";
+        if (calmSky != null)
+            RenderSettings.skybox = calmSky;
+
+        PlayMusic(calmMusic);
     }
 
     void Update()
@@ -38,13 +48,13 @@ public class EmotionController : MonoBehaviour
         if (gamepad != null)
         {
             if (gamepad.buttonSouth.wasPressedThisFrame)
-                SetEmotion(calmColor, 1f, 5f, "[X] CALM   [O] ANXIOUS   [T] FOCUSED", calmMusic);
+                SetEmotion(calmColor, 1f, 5f, "[X] CALM   [O] ANXIOUS   [T] FOCUSED", calmMusic, calmSky, "calm");
 
             if (gamepad.buttonEast.wasPressedThisFrame)
-                SetEmotion(anxiousColor, 2f, 60f, "[X] CALM   [O] ANXIOUS   [T] FOCUSED", anxiousMusic);
+                SetEmotion(anxiousColor, 2f, 60f, "[X] CALM   [O] ANXIOUS   [T] FOCUSED", anxiousMusic, anxiousSky, "anxious");
 
             if (gamepad.buttonNorth.wasPressedThisFrame)
-                SetEmotion(focusedColor, 1.5f, 25f, "[X] CALM   [O] ANXIOUS   [T] FOCUSED", focusedMusic);
+                SetEmotion(focusedColor, 1.5f, 25f, "[X] CALM   [O] ANXIOUS   [T] FOCUSED", focusedMusic, focusedSky, "focused");
         }
 
         if (moodLight != null)
@@ -54,7 +64,7 @@ public class EmotionController : MonoBehaviour
         }
     }
 
-    void SetEmotion(Color color, float intensity, float particleRate, string label, AudioClip clip)
+    void SetEmotion(Color color, float intensity, float particleRate, string label, AudioClip clip, Material sky, string emotionKey)
     {
         targetColor     = color;
         targetIntensity = intensity;
@@ -73,14 +83,19 @@ public class EmotionController : MonoBehaviour
             main.startColor       = color;
         }
 
+        if (sky != null)
+            RenderSettings.skybox = sky;
+
+        if (breathingGuide != null)
+            breathingGuide.SetPattern(emotionKey);
+
         PlayMusic(clip);
     }
 
     void PlayMusic(AudioClip clip)
     {
         if (audioSource == null || clip == null) return;
-        if (audioSource.clip == clip) return; // không restart nếu đang phát cùng bài
-
+        if (audioSource.clip == clip) return;
         audioSource.clip = clip;
         audioSource.Play();
     }
