@@ -34,3 +34,19 @@ Built with Unity 6, C#, and Universal Render Pipeline.
 ## Context
 Developed as a portfolio project for EVL internship application
 at UIC School of Design — exploring VR applications in mental health.
+
+## Changelog
+
+### v1.1.0 (2026-03-30)
+- Added breathing guide with 3 evidence-based patterns
+- Added smooth locomotion with terrain collision
+- Added skybox color change per emotion
+- Added hint text UI for breathing guide
+
+### v1.0.0 (2026-03-25)
+- Initial release
+- PS Controller emotion selection (Calm / Anxious / Focused)
+- Real-time lighting and particle effects
+- Ambient music per emotion
+- VR-style camera look with analog stick
+- Forest environment
